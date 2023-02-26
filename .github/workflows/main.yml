@@ -1,0 +1,32 @@
+name: Build and Deploy Package
+
+on:
+  workflow_dispatch:
+  push:
+    branches: ["master"]
+  release:
+    types:
+      - created
+
+env:
+  NODE_VERSION: 14
+
+jobs:
+  build:
+    name: "🚀Build and Publish"
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v2
+      - name: Use Node.js ${{ env.NODE_VERSION }}
+        uses: actions/setup-node@v1
+        with:
+          node-version: ${{ env.NODE_VERSION }}
+      - uses: borales/actions-yarn@v3.0.0
+      - run: sudo yarn install
+      - run: sudo yarn build
+      - name: Publish generated content to GitHub Pages
+        uses: tsunematsu21/actions-publish-gh-pages@v1.0.2
+        with:
+          dir: dist
+          branch: gh-pages
+          token: ${{ secrets.token }}
