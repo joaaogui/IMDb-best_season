@@ -1,36 +1,27 @@
 {
-  "name": "bestseasonimdb",
-  "version": "0.1.0",
+  "name": "imdb",
   "private": true,
+  "version": "0.0.0",
+  "type": "module",
   "scripts": {
-    "serve": "vue-cli-service serve --open --host localhost",
-    "build": "vue-cli-service build",
-    "lint": "vue-cli-service lint"
+    "dev": "vite",
+    "build": "vite build",
+    "preview": "vite preview"
   },
   "dependencies": {
-    "axios": "^0.19.2",
-    "core-js": "^3.6.4",
-    "register-service-worker": "^1.7.1",
-    "vue": "^2.6.11",
-    "vue-router": "^3.1.6",
-    "vuetify": "^2.2.22",
-    "vuex": "^3.1.3"
+    "axios": "^1.3.4",
+    "register-service-worker": "^1.7.2",
+    "vue": "^3.2.45",
+    "vue-router": "^",
+    "vuetify": "3.1.6",
+    "vuex": "^"
   },
   "devDependencies": {
-    "@vue/cli-plugin-babel": "~4.3.0",
-    "@vue/cli-plugin-eslint": "~4.3.0",
-    "@vue/cli-plugin-pwa": "~4.3.0",
-    "@vue/cli-plugin-router": "~4.3.0",
-    "@vue/cli-plugin-vuex": "~4.3.0",
-    "@vue/cli-service": "~4.3.0",
-    "babel-eslint": "^10.1.0",
-    "eslint": "^6.7.2",
-    "eslint-plugin-vue": "^6.2.2",
-    "node-sass": "^4.12.0",
-    "sass": "^1.19.0",
-    "sass-loader": "^8.0.2",
-    "vue-cli-plugin-vuetify": "~2.0.5",
-    "vue-template-compiler": "^2.6.11",
+    "@vitejs/plugin-vue": "^4.0.0",
+    "sass": "^1.58.3",
+    "tailwindcss": "^3.2.7",
+    "vite": "^4.1.0",
+    "vue-cli-plugin-vuetify": "^2.0.5",
     "vuetify-loader": "^1.3.0"
   }
 }

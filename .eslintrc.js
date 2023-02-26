@@ -1,15 +1,12 @@
 module.exports = {
   root: true,
   env: {
-    node: true
+    es2021: true
   },
   "extends": [
     "plugin:vue/essential",
     "eslint:recommended"
   ],
-  parserOptions: {
-    parser: "babel-eslint"
-  },
   rules: {
     "indent": ["off", 2],
     "vue/require-default-prop": "off",
@@ -25,7 +22,7 @@ module.exports = {
     "quotes": "off",
     "vue/valid-v-for": "warn",
     "comma-dangle": "warn",
-    "no-console": process.env.NODE_ENV === "production" ? "warn" : "off",
-    "no-debugger": process.env.NODE_ENV === "production" ? "warn" : "off"
+    "no-console": import.meta.env.NODE_ENV === "production" ? "warn" : "off",
+    "no-debugger": import.meta.env.NODE_ENV === "production" ? "warn" : "off"
   }
 }

@@ -1,5 +1,5 @@
-import {getTitle} from "@/api/title";
-import {getSeasons} from "@/api/season";
+import {getTitle} from "@/api/title.js";
+import {getSeasons} from "@/api/season.js";
 import store from "@/store/index"
 
 export const searchTitle = async (seriesName) => {

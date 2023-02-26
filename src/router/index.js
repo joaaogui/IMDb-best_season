@@ -1,23 +1,17 @@
-import Vue from "vue"
-import VueRouter from "vue-router"
-
-Vue.use(VueRouter)
-
-const routes = [
-  {
-    path: "/",
-    name: "HomePage",
-    component: () => import("@/views/HomePage")
-  },
-  {
-    path: "/:title",
-    name: "Seasons",
-    component: () => import("@/views/Seasons")
-  }
-]
-
-const router = new VueRouter({
-  routes
+import { createRouter, createWebHistory } from 'vue-router'
+export default createRouter({
+  base: import.meta.env.BASE_URL,
+  history: createWebHistory(),
+  routes: [
+    {
+      path: "/",
+      name: "HomePage",
+      component: () => import("@/views/HomePage.vue")
+    },
+    {
+      path: "/:title",
+      name: "Seasons",
+      component: () => import("@/views/Seasons.vue")
+    }
+  ]
 })
-
-export default router
