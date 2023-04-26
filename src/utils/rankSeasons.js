@@ -30,6 +30,7 @@ async function getSeasonsEpisodes(titleId, seasons) {
 
   rankSeasons(seasonsNotes);
 }
+
 let episodesNotes = {};
 function getSeasonNote(episodes, seasonNumber) {
   let seasonRating = 0;
