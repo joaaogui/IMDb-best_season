@@ -1,15 +1,13 @@
-name: Build and Deploy Package
+name: CI
 
 on:
-  workflow_dispatch:
   push:
-    branches: ["master"]
-  release:
-    types:
-      - created
+    branches: ["main"]
 
 env:
   NODE_VERSION: 14
+  VERCEL_ORG_ID: ${{ secrets.VERCEL_ORG_ID }}
+  VERCEL_PROJECT_ID: ${{ secrets.VERCEL_PROJECT_ID }}
 
 jobs:
   build:
@@ -17,16 +15,15 @@ jobs:
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v2
-      - name: Use Node.js ${{ env.NODE_VERSION }}
-        uses: actions/setup-node@v1
-        with:
-          node-version: ${{ env.NODE_VERSION }}
-      - uses: borales/actions-yarn@v3.0.0
-      - run: sudo yarn install
-      - run: sudo yarn build
-      - name: Publish generated content to GitHub Pages
-        uses: tsunematsu21/actions-publish-gh-pages@v1.0.2
-        with:
-          dir: dist
-          branch: gh-pages
-          token: ${{ secrets.token }}
+      - name: Install Vercel CLI
+        run: npm install --global vercel@latest
+      - name: Install yarn
+        run: npm install --global yarn
+      - name: Install deps
+        run: yarn
+      - name: Pull Vercel Environment Information
+        run: vercel pull --yes --environment=production --token=${{ secrets.VERCEL_TOKEN }}
+      - name: Build Project Artifacts
+        run: vercel build --prod --token=${{ secrets.VERCEL_TOKEN }}
+      - name: Deploy Project Artifacts to Vercel
+        run: vercel deploy --prebuilt --prod --token=${{ secrets.VERCEL_TOKEN }}
