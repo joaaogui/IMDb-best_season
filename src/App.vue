@@ -1,5 +1,4 @@
 <template>
-  ssss
   <v-app>
     <v-app-bar
       :value="showAppBar && this.$route.name === 'Seasons'"
@@ -8,7 +7,7 @@
       flat
       height="100"
     >
-      <v-img
+      <img
         @click="goHome"
         class="mr-4"
         max-height="80"
