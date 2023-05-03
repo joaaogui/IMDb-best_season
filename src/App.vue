@@ -13,8 +13,9 @@
         class="mr-4"
         max-height="80"
         max-width="110"
-        src="src/assets/logo.png"
+        src="images/logo.png"
         style="cursor: pointer"
+        v-if="showAppBar"
       />
       <SearchTitle v-if="showAppBar" />
     </v-app-bar>
