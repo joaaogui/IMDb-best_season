@@ -12,7 +12,7 @@
         class="mr-4"
         max-height="80"
         max-width="110"
-        src="images/logo.png"
+        src="\images\logo.png"
         style="cursor: pointer"
         v-if="showAppBar"
       />
