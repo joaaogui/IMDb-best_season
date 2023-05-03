@@ -3,7 +3,7 @@
     <v-app-bar
       :value="showAppBar && this.$route.name === 'Seasons'"
       app
-      class="pr-12"
+      class="pr-10"
       flat
       height="100"
     >
