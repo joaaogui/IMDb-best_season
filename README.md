@@ -1,24 +1,88 @@
-# bestseasonimdb
+# IMDb Best Season
 
-## Project setup
+A web application that ranks TV show seasons based on their IMDb episode ratings. Find out which season of your favorite show is the best!
+
+## Features
+
+- 🔍 Search for any TV series by name
+- 📊 View all seasons ranked by average IMDb rating
+- ⭐ See episode-by-episode ratings for each season
+- 🌓 Dark/Light theme toggle
+- 📱 Fully responsive design
+
+## Tech Stack
+
+- **Framework:** Next.js 15.1 (App Router)
+- **Language:** TypeScript
+- **UI Components:** shadcn/ui + Radix UI
+- **Styling:** Tailwind CSS
+- **Data Fetching:** TanStack Query
+- **Tables:** TanStack Table
+- **Theme:** next-themes
+- **Dev Server:** Turbopack
+
+## Getting Started
+
+### Prerequisites
+
+- Node.js 22 (see `.nvmrc`)
+- npm or yarn
+
+### Environment Variables
+
+Create a `.env.local` file in the root directory:
+
+```env
+VITE_API_KEY=your_omdb_api_key
 ```
+
+Get your free API key at [OMDb API](https://www.omdbapi.com/apikey.aspx).
+
+### Installation
+
+```bash
+# Install dependencies
 npm install
-```
 
-### Compiles and hot-reloads for development
-```
-npm run serve
-```
+# Run development server with Turbopack
+npm run dev
 
-### Compiles and minifies for production
-```
+# Build for production
 npm run build
+
+# Start production server
+npm start
 ```
 
-### Lints and fixes files
+## Deployment
+
+This project is configured for deployment on Vercel:
+
+1. Push your code to GitHub
+2. Import the project in Vercel
+3. Add the `VITE_API_KEY` environment variable
+4. Deploy!
+
+The `.nvmrc` file ensures Node.js 22 is used during build.
+
+## Project Structure
+
 ```
-npm run lint
+src/
+├── app/                    # Next.js App Router pages
+│   ├── api/               # API routes
+│   │   └── search/        # Search endpoint
+│   ├── [title]/           # Dynamic show page
+│   ├── globals.css        # Global styles
+│   ├── layout.tsx         # Root layout
+│   └── page.tsx           # Home page
+├── components/            # React components
+│   ├── ui/               # shadcn/ui components
+│   └── ...               # Feature components
+├── lib/                   # Utilities
+└── types/                 # TypeScript types
 ```
 
-### Customize configuration
-See [Configuration Reference](https://cli.vuejs.org/config/).
+## License
+
+MIT
