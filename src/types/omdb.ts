@@ -66,3 +66,4 @@ export interface SearchResult {
   rankedSeasons: RankedSeason[];
 }
 
+

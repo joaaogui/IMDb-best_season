@@ -68,3 +68,4 @@ export function SearchTitle({ initialValue = "", compact = false }: SearchTitleP
   );
 }
 
+
