@@ -11,7 +11,7 @@ interface ShowHeaderProps {
   searchQuery: string;
 }
 
-export function ShowHeader({ show, searchQuery }: ShowHeaderProps) {
+export function ShowHeader({ show: _show, searchQuery }: ShowHeaderProps) {
   return (
     <header className="border-b bg-card/30 backdrop-blur-sm sticky top-0 z-40">
       <div className="container mx-auto px-4 py-4">
