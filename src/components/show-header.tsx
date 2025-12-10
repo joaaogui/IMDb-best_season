@@ -22,7 +22,7 @@ export function ShowHeader({ show: _show, searchQuery }: ShowHeaderProps) {
               alt="IMDb Best Season"
               width={80}
               height={50}
-              className="hover:opacity-80 transition-opacity"
+              className="hover:opacity-80 transition-opacity dark:invert dark:brightness-200"
               priority
             />
           </Link>

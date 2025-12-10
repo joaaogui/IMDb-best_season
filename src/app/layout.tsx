@@ -20,7 +20,7 @@ export const metadata: Metadata = {
   description:
     "Discover which season of your favorite TV show is the best rated according to IMDb episode ratings",
   icons: {
-    icon: "/favicon.ico",
+    icon: "/favicon.svg",
   },
 };
 

@@ -22,7 +22,7 @@ export default function HomePage() {
               src="/images/logo.png"
               alt="IMDb Best Season"
               fill
-              className="object-contain"
+              className="object-contain dark:invert dark:brightness-200"
               priority
             />
           </div>
