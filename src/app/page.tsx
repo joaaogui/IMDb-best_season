@@ -1,6 +1,9 @@
 import Image from "next/image";
+import Link from "next/link";
 import { SearchTitle } from "@/components/search-title";
 import { ThemeToggle } from "@/components/theme-toggle";
+
+const SUGGESTIONS = ["Breaking Bad", "Game of Thrones", "The Office"];
 
 export default function HomePage() {
   return (
@@ -49,9 +52,17 @@ export default function HomePage() {
           >
             <p>
               Try searching for{" "}
-              <span className="text-foreground font-medium">Breaking Bad</span>,{" "}
-              <span className="text-foreground font-medium">Game of Thrones</span>, or{" "}
-              <span className="text-foreground font-medium">The Office</span>
+              {SUGGESTIONS.map((suggestion, index) => (
+                <span key={suggestion}>
+                  <Link
+                    href={`/${encodeURIComponent(suggestion)}`}
+                    className="text-foreground font-medium hover:text-gold transition-colors"
+                  >
+                    {suggestion}
+                  </Link>
+                  {index < SUGGESTIONS.length - 1 && (index === SUGGESTIONS.length - 2 ? ", or " : ", ")}
+                </span>
+              ))}
             </p>
           </div>
         </div>
