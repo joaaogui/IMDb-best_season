@@ -11,9 +11,9 @@ import type {
 const OMDB_BASE_URL = "https://www.omdbapi.com";
 
 async function fetchFromOMDB(params: string): Promise<Response> {
-  const apiKey = process.env.VITE_API_KEY;
+  const apiKey = process.env.OMDB_API_KEY;
   if (!apiKey) {
-    throw new Error("OMDB API key not configured");
+    throw new Error("OMDB API key not configured. Get your free key at https://www.omdbapi.com/apikey.aspx");
   }
   return fetch(`${OMDB_BASE_URL}/?${params}&apikey=${apiKey}`);
 }

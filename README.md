@@ -30,13 +30,13 @@ A web application that ranks TV show seasons based on their IMDb episode ratings
 
 ### Environment Variables
 
-Create a `.env.local` file in the root directory:
+Create a `.env.local` file in the root directory (see `.env.example`):
 
 ```env
-VITE_API_KEY=your_omdb_api_key
+OMDB_API_KEY=your_omdb_api_key
 ```
 
-Get your free API key at [OMDb API](https://www.omdbapi.com/apikey.aspx).
+Get your free API key at [OMDb API](https://www.omdbapi.com/apikey.aspx). Free tier allows 1,000 requests/day.
 
 ### Installation
 
@@ -60,7 +60,7 @@ This project is configured for deployment on Vercel:
 
 1. Push your code to GitHub
 2. Import the project in Vercel
-3. Add the `VITE_API_KEY` environment variable
+3. Add the `OMDB_API_KEY` environment variable
 4. Deploy!
 
 The `.nvmrc` file ensures Node.js 22 is used during build.
