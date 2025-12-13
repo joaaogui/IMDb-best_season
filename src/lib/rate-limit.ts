@@ -116,10 +116,16 @@ export const RATE_LIMITS = {
     maxRequests: 20,
     windowMs: 60 * 1000,
   },
+  // Autocomplete can be slightly higher since it is debounced + cached
+  suggest: {
+    maxRequests: 60,
+    windowMs: 60 * 1000,
+  },
   // 10 requests per minute for heavy endpoints
   heavy: {
     maxRequests: 10,
     windowMs: 60 * 1000,
   },
 } as const;
+
 

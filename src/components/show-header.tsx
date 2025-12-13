@@ -2,6 +2,7 @@
 
 import Image from "next/image";
 import Link from "next/link";
+import { ExternalLink } from "lucide-react";
 import { SearchTitle } from "@/components/search-title";
 import { ThemeToggle } from "@/components/theme-toggle";
 import type { Show } from "@/types/omdb";
@@ -11,21 +12,23 @@ interface ShowHeaderProps {
   searchQuery: string;
 }
 
-export function ShowHeader({ show: _show, searchQuery }: ShowHeaderProps) {
+export function ShowHeader({ show: _show, searchQuery }: Readonly<ShowHeaderProps>) {
   return (
     <header className="border-b bg-card/30 backdrop-blur-sm sticky top-0 z-40">
       <div className="container mx-auto px-4 py-4">
         <div className="flex items-center gap-4">
-          <Link href="/" className="shrink-0">
-            <Image
-              src="/images/logo.png"
-              alt="IMDb Best Season"
-              width={80}
-              height={50}
-              className="hover:opacity-80 transition-opacity dark:invert dark:brightness-200"
-              priority
-            />
-          </Link>
+          <div className="flex items-center gap-2 shrink-0">
+            <Link href="/">
+              <Image
+                src="/images/logo.png"
+                alt="IMDb Best Season"
+                width={80}
+                height={50}
+                className="hover:opacity-80 transition-opacity dark:invert dark:brightness-200"
+                priority
+              />
+            </Link>
+          </div>
           <div className="flex-1">
             <SearchTitle initialValue={searchQuery} compact />
           </div>
@@ -36,7 +39,7 @@ export function ShowHeader({ show: _show, searchQuery }: ShowHeaderProps) {
   );
 }
 
-export function ShowInfo({ show }: { show: Show }) {
+export function ShowInfo({ show }: Readonly<{ show: Show }>) {
   return (
     <div className="flex flex-col md:flex-row gap-6 md:gap-8 animate-fade-in">
       {show.imageUrl && (
@@ -53,9 +56,23 @@ export function ShowInfo({ show }: { show: Show }) {
         </div>
       )}
       <div className="flex flex-col justify-center text-center md:text-left">
-        <h1 className="text-3xl md:text-4xl font-bold tracking-tight mb-3">
-          {show.name}
-        </h1>
+        <div className="flex items-center justify-center md:justify-start gap-2 mb-3">
+          <h1 className="text-3xl md:text-4xl font-bold tracking-tight">
+            {show.name}
+          </h1>
+          {show.imdbID && (
+            <a
+              href={`https://www.imdb.com/title/${show.imdbID}`}
+              target="_blank"
+              rel="noopener noreferrer"
+              className="text-muted-foreground hover:text-gold transition-colors"
+              title="Open in IMDb"
+            >
+              <ExternalLink className="h-5 w-5" />
+              <span className="sr-only">Open in IMDb</span>
+            </a>
+          )}
+        </div>
         {show.description && (
           <p className="text-muted-foreground max-w-2xl leading-relaxed">
             {show.description}

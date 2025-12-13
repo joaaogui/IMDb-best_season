@@ -30,13 +30,13 @@ export function EpisodeDialog({
   onOpenChange,
   seasonNumber,
   episodes,
-}: EpisodeDialogProps) {
+}: Readonly<EpisodeDialogProps>) {
   return (
     <Dialog open={open} onOpenChange={onOpenChange}>
       <DialogContent className="max-w-md max-h-[80vh] overflow-hidden flex flex-col">
         <DialogHeader>
           <DialogTitle className="text-xl flex items-center gap-2">
-            <Star className="h-5 w-5 text-gold fill-gold" />
+            <Star className="h-5 w-5 text-gold fill-gold" aria-hidden="true" />
             Season {seasonNumber} Episodes
           </DialogTitle>
           <DialogDescription>

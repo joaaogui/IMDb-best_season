@@ -26,7 +26,7 @@ interface SeasonsTableProps {
   seasons: RankedSeason[];
 }
 
-export function SeasonsTable({ seasons }: SeasonsTableProps) {
+export function SeasonsTable({ seasons }: Readonly<SeasonsTableProps>) {
   const [sorting, setSorting] = useState<SortingState>([]);
   const [selectedSeason, setSelectedSeason] = useState<RankedSeason | null>(
     null

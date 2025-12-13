@@ -59,6 +59,9 @@ export default {
         mono: ["var(--font-geist-mono)"],
       },
       keyframes: {
+        spin: {
+          to: { transform: "rotate(360deg)" },
+        },
         "fade-in": {
           "0%": { opacity: "0", transform: "translateY(10px)" },
           "100%": { opacity: "1", transform: "translateY(0)" },
@@ -73,6 +76,7 @@ export default {
         },
       },
       animation: {
+        spin: "spin 1s linear infinite",
         "fade-in": "fade-in 0.5s ease-out forwards",
         "scale-in": "scale-in 0.3s ease-out forwards",
         shimmer: "shimmer 2s infinite linear",

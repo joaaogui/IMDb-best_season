@@ -24,6 +24,21 @@ export interface OMDBTitle {
   Error?: string;
 }
 
+export interface OMDBSearchItem {
+  Title: string;
+  Year: string;
+  imdbID: string;
+  Type: string;
+  Poster: string;
+}
+
+export interface OMDBSearchResponse {
+  Search?: OMDBSearchItem[];
+  totalResults?: string;
+  Response: string;
+  Error?: string;
+}
+
 export interface OMDBEpisode {
   Title: string;
   Released: string;

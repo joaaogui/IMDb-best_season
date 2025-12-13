@@ -69,6 +69,13 @@ export function getSeasonCacheKey(imdbId: string, season: number): string {
 }
 
 /**
+ * Generate cache key for suggestions/autocomplete
+ */
+export function getSuggestCacheKey(query: string): string {
+  return `suggest:${query.toLowerCase().trim()}`;
+}
+
+/**
  * Clear all cache entries
  */
 export function clearCache(): void {
@@ -84,4 +91,5 @@ export function getCacheStats(): { size: number; maxSize: number } {
     maxSize: MAX_CACHE_SIZE,
   };
 }
+
 

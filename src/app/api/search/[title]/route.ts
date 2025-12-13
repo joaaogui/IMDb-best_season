@@ -169,8 +169,10 @@ export async function GET(
     const totalSeasons = show.totalSeasons || 0;
     const seasonPromises: Promise<OMDBSeason>[] = [];
 
-    for (let i = 1; i <= totalSeasons; i++) {
-      seasonPromises.push(getSeason(titleData.imdbID, i));
+    if (totalSeasons > 0 && totalSeasons < 100) {
+      for (let i = 1; i <= totalSeasons; i++) {
+        seasonPromises.push(getSeason(titleData.imdbID, i));
+      }
     }
 
     const seasonsData = await Promise.all(seasonPromises);

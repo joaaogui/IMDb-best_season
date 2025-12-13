@@ -1,5 +1,6 @@
 import Image from "next/image";
 import Link from "next/link";
+import { ExternalLink } from "lucide-react";
 import { SearchTitle } from "@/components/search-title";
 import { ThemeToggle } from "@/components/theme-toggle";
 
@@ -18,13 +19,22 @@ export default function HomePage() {
         <div className="w-full max-w-xl space-y-8 text-center">
           {/* Logo */}
           <div className="relative w-64 h-40 mx-auto animate-scale-in">
-            <Image
-              src="/images/logo.png"
-              alt="IMDb Best Season"
-              fill
-              className="object-contain dark:invert dark:brightness-200"
-              priority
-            />
+            <a
+              href="https://imdb.com"
+              target="_blank"
+              rel="noopener noreferrer"
+              className="group block relative w-full h-full"
+              title="Open IMDb"
+            >
+              <Image
+                src="/images/logo.png"
+                alt="IMDb Best Season"
+                fill
+                className="object-contain dark:invert dark:brightness-200 group-hover:scale-105 transition-transform"
+                priority
+              />
+              <ExternalLink className="absolute top-0 right-0 h-5 w-5 text-muted-foreground opacity-0 group-hover:opacity-100 transition-opacity" />
+            </a>
           </div>
 
           {/* Tagline */}
@@ -39,7 +49,7 @@ export default function HomePage() {
 
           {/* Search */}
           <div
-            className="flex justify-center animate-fade-in"
+            className="relative z-10 flex justify-center animate-fade-in"
             style={{ animationDelay: "200ms" }}
           >
             <SearchTitle />
