@@ -1,5 +1,19 @@
 import { Skeleton } from "@/components/ui/skeleton";
 
+const SKELETON_ROWS = [
+  { id: "row-1" },
+  { id: "row-2" },
+  { id: "row-3" },
+  { id: "row-4" },
+  { id: "row-5" },
+] as const;
+
+const BOUNCE_DOTS = [
+  { id: "dot-1", delay: 0 },
+  { id: "dot-2", delay: 150 },
+  { id: "dot-3", delay: 300 },
+] as const;
+
 export function LoadingSkeleton() {
   return (
     <div className="space-y-8 animate-fade-in">
@@ -24,9 +38,9 @@ export function LoadingSkeleton() {
             <Skeleton className="h-4 w-20" />
           </div>
         </div>
-        {Array.from({ length: 5 }).map((_, i) => (
+        {SKELETON_ROWS.map((row) => (
           <div
-            key={i}
+            key={row.id}
             className="p-4 border-b last:border-b-0 flex items-center gap-8"
           >
             <Skeleton className="h-5 w-5" />
@@ -46,11 +60,11 @@ export function HomeLoadingSkeleton() {
   return (
     <div className="flex flex-col items-center justify-center gap-4">
       <div className="flex gap-1">
-        {Array.from({ length: 3 }).map((_, i) => (
+        {BOUNCE_DOTS.map((dot) => (
           <div
-            key={i}
+            key={dot.id}
             className="w-3 h-3 rounded-full bg-gold animate-bounce"
-            style={{ animationDelay: `${i * 150}ms` }}
+            style={{ animationDelay: `${dot.delay}ms` }}
           />
         ))}
       </div>

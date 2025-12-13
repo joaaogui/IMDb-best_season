@@ -1,12 +1,14 @@
 "use client";
 
-import { useState } from "react";
+import { useState, useMemo, useCallback } from "react";
 import {
   useReactTable,
   getCoreRowModel,
   getSortedRowModel,
   type SortingState,
   type ColumnDef,
+  type CellContext,
+  type HeaderContext,
   flexRender,
 } from "@tanstack/react-table";
 import {
@@ -26,6 +28,127 @@ interface SeasonsTableProps {
   seasons: RankedSeason[];
 }
 
+interface TableMeta {
+  seasons: RankedSeason[];
+  onViewEpisodes: (season: RankedSeason) => void;
+}
+
+function RankCellRenderer({ row, table }: Readonly<CellContext<RankedSeason, unknown>>) {
+  const meta = table.options.meta as TableMeta;
+  const seasonNumber = row.original.seasonNumber;
+  const originalIndex = meta.seasons.findIndex((s) => s.seasonNumber === seasonNumber);
+  const isFirst = originalIndex === 0;
+  return (
+    <div className="flex items-center gap-2">
+      {isFirst ? (
+        <Trophy className="h-5 w-5 text-gold fill-gold" />
+      ) : (
+        <span className="w-5 text-center text-muted-foreground font-mono">
+          {originalIndex + 1}
+        </span>
+      )}
+    </div>
+  );
+}
+
+function SortableSeasonHeader({ column }: Readonly<HeaderContext<RankedSeason, unknown>>) {
+  return (
+    <Button
+      variant="ghost"
+      onClick={() => column.toggleSorting(column.getIsSorted() === "asc")}
+      className="-ml-4"
+    >
+      Season
+      <ArrowUpDown className="ml-2 h-4 w-4" />
+    </Button>
+  );
+}
+
+function SortableRatingHeader({ column }: Readonly<HeaderContext<RankedSeason, unknown>>) {
+  return (
+    <Button
+      variant="ghost"
+      onClick={() => column.toggleSorting(column.getIsSorted() === "asc")}
+      className="-ml-4"
+    >
+      Rating
+      <ArrowUpDown className="ml-2 h-4 w-4" />
+    </Button>
+  );
+}
+
+function SeasonCellRenderer({ row }: Readonly<CellContext<RankedSeason, unknown>>) {
+  return <span className="font-semibold">Season {row.original.seasonNumber}</span>;
+}
+
+function RatingCellRenderer({ row, table }: Readonly<CellContext<RankedSeason, unknown>>) {
+  const meta = table.options.meta as TableMeta;
+  const { rating, seasonNumber } = row.original;
+  const originalIndex = meta.seasons.findIndex((s) => s.seasonNumber === seasonNumber);
+  const isFirst = originalIndex === 0;
+  return (
+    <div className="flex items-center gap-2">
+      <Star
+        className={`h-4 w-4 ${
+          isFirst ? "text-gold fill-gold" : "text-muted-foreground"
+        }`}
+      />
+      <span className={`font-mono ${isFirst ? "text-gold font-bold" : ""}`}>
+        {rating.toFixed(2)}
+      </span>
+    </div>
+  );
+}
+
+function EpisodesCellRenderer({ row }: Readonly<CellContext<RankedSeason, unknown>>) {
+  return (
+    <span className="text-muted-foreground">{row.original.episodes.length} episodes</span>
+  );
+}
+
+function ActionsCellRenderer({ row, table }: Readonly<CellContext<RankedSeason, unknown>>) {
+  const meta = table.options.meta as TableMeta;
+  return (
+    <Button
+      variant="ghost"
+      size="icon"
+      onClick={() => meta.onViewEpisodes(row.original)}
+      className="hover:text-gold"
+    >
+      <Info className="h-4 w-4" />
+      <span className="sr-only">View episodes</span>
+    </Button>
+  );
+}
+
+const columns: ColumnDef<RankedSeason>[] = [
+  {
+    id: "rank",
+    header: "Rank",
+    cell: RankCellRenderer,
+  },
+  {
+    accessorKey: "seasonNumber",
+    header: SortableSeasonHeader,
+    cell: SeasonCellRenderer,
+  },
+  {
+    accessorKey: "rating",
+    header: SortableRatingHeader,
+    cell: RatingCellRenderer,
+  },
+  {
+    id: "episodes",
+    header: "Episodes",
+    cell: EpisodesCellRenderer,
+  },
+  {
+    id: "actions",
+    header: "",
+    cell: ActionsCellRenderer,
+  },
+];
+
 export function SeasonsTable({ seasons }: Readonly<SeasonsTableProps>) {
   const [sorting, setSorting] = useState<SortingState>([]);
   const [selectedSeason, setSelectedSeason] = useState<RankedSeason | null>(
@@ -33,108 +156,18 @@ export function SeasonsTable({ seasons }: Readonly<SeasonsTableProps>) {
   );
   const [dialogOpen, setDialogOpen] = useState(false);
 
-  const columns: ColumnDef<RankedSeason>[] = [
-    {
-      id: "rank",
-      header: "Rank",
-      cell: ({ row }) => {
-        const originalIndex = seasons.findIndex(
-          (s) => s.seasonNumber === row.original.seasonNumber
-        );
-        const isFirst = originalIndex === 0;
-        return (
-          <div className="flex items-center gap-2">
-            {isFirst ? (
-              <Trophy className="h-5 w-5 text-gold fill-gold" />
-            ) : (
-              <span className="w-5 text-center text-muted-foreground font-mono">
-                {originalIndex + 1}
-              </span>
-            )}
-          </div>
-        );
-      },
-    },
-    {
-      accessorKey: "seasonNumber",
-      header: ({ column }) => (
-        <Button
-          variant="ghost"
-          onClick={() => column.toggleSorting(column.getIsSorted() === "asc")}
-          className="-ml-4"
-        >
-          Season
-          <ArrowUpDown className="ml-2 h-4 w-4" />
-        </Button>
-      ),
-      cell: ({ row }) => (
-        <span className="font-semibold">Season {row.original.seasonNumber}</span>
-      ),
-    },
-    {
-      accessorKey: "rating",
-      header: ({ column }) => (
-        <Button
-          variant="ghost"
-          onClick={() => column.toggleSorting(column.getIsSorted() === "asc")}
-          className="-ml-4"
-        >
-          Rating
-          <ArrowUpDown className="ml-2 h-4 w-4" />
-        </Button>
-      ),
-      cell: ({ row }) => {
-        const rating = row.original.rating;
-        const originalIndex = seasons.findIndex(
-          (s) => s.seasonNumber === row.original.seasonNumber
-        );
-        const isFirst = originalIndex === 0;
-        return (
-          <div className="flex items-center gap-2">
-            <Star
-              className={`h-4 w-4 ${
-                isFirst ? "text-gold fill-gold" : "text-muted-foreground"
-              }`}
-            />
-            <span
-              className={`font-mono ${
-                isFirst ? "text-gold font-bold" : ""
-              }`}
-            >
-              {rating.toFixed(2)}
-            </span>
-          </div>
-        );
-      },
-    },
-    {
-      id: "episodes",
-      header: "Episodes",
-      cell: ({ row }) => (
-        <span className="text-muted-foreground">
-          {row.original.episodes.length} episodes
-        </span>
-      ),
-    },
-    {
-      id: "actions",
-      header: "",
-      cell: ({ row }) => (
-        <Button
-          variant="ghost"
-          size="icon"
-          onClick={() => {
-            setSelectedSeason(row.original);
-            setDialogOpen(true);
-          }}
-          className="hover:text-gold"
-        >
-          <Info className="h-4 w-4" />
-          <span className="sr-only">View episodes</span>
-        </Button>
-      ),
-    },
-  ];
+  const handleViewEpisodes = useCallback((season: RankedSeason) => {
+    setSelectedSeason(season);
+    setDialogOpen(true);
+  }, []);
+
+  const tableMeta: TableMeta = useMemo(
+    () => ({
+      seasons,
+      onViewEpisodes: handleViewEpisodes,
+    }),
+    [seasons, handleViewEpisodes]
+  );
 
   const table = useReactTable({
     data: seasons,
@@ -145,6 +178,7 @@ export function SeasonsTable({ seasons }: Readonly<SeasonsTableProps>) {
     state: {
       sorting,
     },
+    meta: tableMeta,
   });
 
   return (

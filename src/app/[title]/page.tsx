@@ -72,7 +72,7 @@ export default function SeasonsPage() {
         <ShowInfo show={data.show} />
         <section>
           <h2 className="text-xl font-semibold mb-4 flex items-center gap-2">
-            Season Rankings
+            Season Rankings{" "}
             <span className="text-sm font-normal text-muted-foreground">
               (by average episode rating)
             </span>

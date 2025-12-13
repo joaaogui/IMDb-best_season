@@ -66,7 +66,7 @@ export default function HomePage() {
                 <span key={suggestion}>
                   <Link
                     href={`/${encodeURIComponent(suggestion)}`}
-                    data-testid={`suggestion-${suggestion.toLowerCase().replace(/\s+/g, "-")}`}
+                    data-testid={`suggestion-${suggestion.toLowerCase().replaceAll(/\s+/g, "-")}`}
                     className="text-foreground font-medium hover:text-gold transition-colors"
                   >
                     {suggestion}

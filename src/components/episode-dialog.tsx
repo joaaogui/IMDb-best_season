@@ -18,6 +18,20 @@ import {
 import { Star } from "lucide-react";
 import type { EpisodeRating } from "@/types/omdb";
 
+function getRatingColorClass(rating: string): string {
+  if (rating === "N/A") {
+    return "text-muted-foreground";
+  }
+  const numericRating = Number.parseFloat(rating);
+  if (numericRating >= 8) {
+    return "text-gold";
+  }
+  if (numericRating >= 7) {
+    return "text-green-500";
+  }
+  return "text-muted-foreground";
+}
+
 interface EpisodeDialogProps {
   open: boolean;
   onOpenChange: (open: boolean) => void;
@@ -63,15 +77,7 @@ export function EpisodeDialog({
                   </TableCell>
                   <TableCell className="text-right">
                     <span
-                      className={`inline-flex items-center gap-1 ${
-                        episode.rating !== "N/A"
-                          ? parseFloat(episode.rating) >= 8
-                            ? "text-gold"
-                            : parseFloat(episode.rating) >= 7
-                            ? "text-green-500"
-                            : "text-muted-foreground"
-                          : "text-muted-foreground"
-                      }`}
+                      className={`inline-flex items-center gap-1 ${getRatingColorClass(episode.rating)}`}
                     >
                       {episode.rating !== "N/A" && (
                         <Star className="h-3 w-3 fill-current" />
