@@ -78,7 +78,7 @@ function SortableRatingHeader({ column }: Readonly<HeaderContext<RankedSeason, u
 }
 
 function SeasonCellRenderer({ row }: Readonly<CellContext<RankedSeason, unknown>>) {
-  return <span className="font-semibold">Season {row.original.seasonNumber}</span>;
+  return <span data-testid={`season-number-${row.original.seasonNumber}`} className="font-semibold">Season {row.original.seasonNumber}</span>;
 }
 
 function RatingCellRenderer({ row, table }: Readonly<CellContext<RankedSeason, unknown>>) {
@@ -93,7 +93,7 @@ function RatingCellRenderer({ row, table }: Readonly<CellContext<RankedSeason, u
           isFirst ? "text-gold fill-gold" : "text-muted-foreground"
         }`}
       />
-      <span className={`font-mono ${isFirst ? "text-gold font-bold" : ""}`}>
+      <span data-testid={`season-rating-${seasonNumber}`} className={`font-mono ${isFirst ? "text-gold font-bold" : ""}`}>
         {rating.toFixed(2)}
       </span>
     </div>
@@ -150,6 +150,9 @@ const columns: ColumnDef<RankedSeason>[] = [
 ];
 
 export function SeasonsTable({ seasons }: Readonly<SeasonsTableProps>) {
+  if (seasons.length === 0) {
+    return <div data-testid="seasons-table-empty">No seasons found</div>;
+  }
   const [sorting, setSorting] = useState<SortingState>([]);
   const [selectedSeason, setSelectedSeason] = useState<RankedSeason | null>(
     null
@@ -183,7 +186,7 @@ export function SeasonsTable({ seasons }: Readonly<SeasonsTableProps>) {
 
   return (
     <>
-      <div className="rounded-xl border bg-card/50 backdrop-blur-sm overflow-hidden">
+      <div data-testid="seasons-table" className="rounded-xl border bg-card/50 backdrop-blur-sm overflow-hidden">
         <Table>
           <TableHeader>
             {table.getHeaderGroups().map((headerGroup) => (
@@ -210,6 +213,8 @@ export function SeasonsTable({ seasons }: Readonly<SeasonsTableProps>) {
               return (
                 <TableRow
                   key={row.id}
+                  data-testid={`season-row-${row.original.seasonNumber}`}
+                  data-best-season={isFirst ? "true" : undefined}
                   className={`transition-colors ${
                     isFirst
                       ? "bg-gold/5 hover:bg-gold/10 border-l-2 border-l-gold"

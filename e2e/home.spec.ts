@@ -117,3 +117,103 @@ test.describe("Accessibility", () => {
     await expect(searchInput).toBeFocused();
   });
 });
+
+test.describe("Show Results", () => {
+  // Increase timeout for API-dependent tests
+  const API_TIMEOUT = 30000;
+
+  test("should display show information after searching", async ({ page }) => {
+    await page.goto("/Breaking%20Bad");
+
+    // Wait for the show info to load
+    await expect(page.getByTestId("show-info")).toBeVisible({ timeout: API_TIMEOUT });
+
+    // Verify show title is displayed
+    await expect(page.getByTestId("show-title")).toBeVisible();
+    await expect(page.getByTestId("show-title")).toContainText("Breaking Bad");
+
+    // Verify poster is displayed
+    await expect(page.getByTestId("show-poster")).toBeVisible();
+
+    // Verify description is displayed
+    await expect(page.getByTestId("show-description")).toBeVisible();
+
+    // Verify seasons count is displayed
+    await expect(page.getByTestId("show-seasons-count")).toBeVisible();
+  });
+
+  test("should display seasons table with rankings", async ({ page }) => {
+    await page.goto("/Breaking%20Bad");
+
+    // Wait for the seasons table to load
+    await expect(page.getByTestId("seasons-table")).toBeVisible({ timeout: API_TIMEOUT });
+
+    // Verify at least one season row exists
+    await expect(page.locator('[data-testid^="season-row-"]').first()).toBeVisible();
+
+    // Verify the best season is marked
+    await expect(page.locator('[data-best-season="true"]')).toBeVisible();
+  });
+
+  test("should show season ratings in the table", async ({ page }) => {
+    await page.goto("/Breaking%20Bad");
+
+    // Wait for the seasons table to load
+    await expect(page.getByTestId("seasons-table")).toBeVisible({ timeout: API_TIMEOUT });
+
+    // Verify ratings are displayed (should be numeric values like "9.23")
+    const ratingElement = page.locator('[data-testid^="season-rating-"]').first();
+    await expect(ratingElement).toBeVisible();
+    
+    // Verify rating is a valid number format (e.g., "9.23")
+    const ratingText = await ratingElement.textContent();
+    expect(ratingText).toMatch(/^\d+\.\d{2}$/);
+  });
+
+  test("should display correct number of seasons for Breaking Bad", async ({ page }) => {
+    await page.goto("/Breaking%20Bad");
+
+    // Wait for the seasons table to load
+    await expect(page.getByTestId("seasons-table")).toBeVisible({ timeout: API_TIMEOUT });
+
+    // Breaking Bad has 5 seasons
+    const seasonRows = page.locator('[data-testid^="season-row-"]');
+    await expect(seasonRows).toHaveCount(5);
+  });
+
+  test("should show error state for non-existent show", async ({ page }) => {
+    await page.goto("/NonExistentShowXYZ123456");
+
+    // Should show "Show Not Found" message
+    await expect(page.getByText("Show Not Found")).toBeVisible({ timeout: API_TIMEOUT });
+
+    // Should have a back to home button
+    await expect(page.getByRole("link", { name: /back to home/i })).toBeVisible();
+  });
+
+  test("should navigate from search to show results", async ({ page }) => {
+    await page.goto("/");
+
+    // Search for a show
+    await page.getByTestId("search-input").fill("The Office");
+    await page.getByTestId("search-button").click();
+
+    // Wait for navigation and results
+    await expect(page).toHaveURL(/\/The%20Office/);
+    await expect(page.getByTestId("show-info")).toBeVisible({ timeout: API_TIMEOUT });
+    
+    // Verify it found "The Office"
+    await expect(page.getByTestId("show-title")).toContainText(/office/i);
+  });
+
+  test("should rank best season at the top", async ({ page }) => {
+    await page.goto("/Breaking%20Bad");
+
+    // Wait for the seasons table to load
+    await expect(page.getByTestId("seasons-table")).toBeVisible({ timeout: API_TIMEOUT });
+
+    // Get the first row in the table (best season)
+    const firstRow = page.locator('[data-testid^="season-row-"]').first();
+    await expect(firstRow).toHaveAttribute("data-best-season", "true");
+  });
+});

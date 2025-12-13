@@ -41,7 +41,7 @@ export function ShowHeader({ show: _show, searchQuery }: Readonly<ShowHeaderProp
 
 export function ShowInfo({ show }: Readonly<{ show: Show }>) {
   return (
-    <div className="flex flex-col md:flex-row gap-6 md:gap-8 animate-fade-in">
+    <div data-testid="show-info" className="flex flex-col md:flex-row gap-6 md:gap-8 animate-fade-in">
       {show.imageUrl && (
         <div className="shrink-0 mx-auto md:mx-0">
           <div className="relative w-48 md:w-56 aspect-[2/3] rounded-xl overflow-hidden shadow-2xl ring-1 ring-border/50">
@@ -50,6 +50,7 @@ export function ShowInfo({ show }: Readonly<{ show: Show }>) {
               alt={show.name || "Show poster"}
               fill
               className="object-cover"
+              data-testid="show-poster"
               priority
             />
           </div>
@@ -57,7 +58,7 @@ export function ShowInfo({ show }: Readonly<{ show: Show }>) {
       )}
       <div className="flex flex-col justify-center text-center md:text-left">
         <div className="flex items-center justify-center md:justify-start gap-2 mb-3">
-          <h1 className="text-3xl md:text-4xl font-bold tracking-tight">
+          <h1 data-testid="show-title" className="text-3xl md:text-4xl font-bold tracking-tight">
             {show.name}
           </h1>
           {show.imdbID && (
@@ -74,12 +75,12 @@ export function ShowInfo({ show }: Readonly<{ show: Show }>) {
           )}
         </div>
         {show.description && (
-          <p className="text-muted-foreground max-w-2xl leading-relaxed">
+          <p data-testid="show-description" className="text-muted-foreground max-w-2xl leading-relaxed">
             {show.description}
           </p>
         )}
         {show.totalSeasons && (
-          <p className="mt-4 text-sm text-muted-foreground">
+          <p data-testid="show-seasons-count" className="mt-4 text-sm text-muted-foreground">
             <span className="font-semibold text-gold">{show.totalSeasons}</span>{" "}
             {show.totalSeasons === 1 ? "season" : "seasons"} ranked by IMDb ratings
           </p>
