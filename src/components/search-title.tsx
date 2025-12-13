@@ -152,6 +152,7 @@ export function SearchTitle({ initialValue = "", compact = false }: Readonly<Sea
   return (
     <form
       onSubmit={handleSearch}
+      data-testid="search-form"
       className={`flex gap-2 w-full ${compact ? "max-w-md" : "max-w-xl"}`}
     >
       <div className="relative flex-1">
@@ -166,6 +167,7 @@ export function SearchTitle({ initialValue = "", compact = false }: Readonly<Sea
           name="search"
           autoComplete="off"
           placeholder="Enter the show name..."
+          data-testid="search-input"
           value={seriesName}
           onChange={(e) => {
             const next = e.target.value;
@@ -198,6 +200,7 @@ export function SearchTitle({ initialValue = "", compact = false }: Readonly<Sea
         {/* Suggestions dropdown */}
         {isOpen && (isSuggestLoading || suggestions.length > 0) && (
           <div
+            data-testid="suggestions-dropdown"
             className="absolute left-0 right-0 top-full mt-2 rounded-md border border-border/50 bg-card/95 backdrop-blur-sm shadow-xl z-[900] overflow-hidden"
           >
             {isSuggestLoading && suggestions.length === 0 ? (
@@ -238,6 +241,7 @@ export function SearchTitle({ initialValue = "", compact = false }: Readonly<Sea
       <Button
         type="submit"
         disabled={isLoading || !seriesName.trim()}
+        data-testid="search-button"
         className={`${
           compact ? "h-9 px-4" : "h-12 px-6"
         } gradient-gold text-black font-semibold hover:opacity-90 transition-opacity`}

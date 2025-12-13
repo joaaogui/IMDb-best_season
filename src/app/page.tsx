@@ -39,10 +39,10 @@ export default function HomePage() {
 
           {/* Tagline */}
           <div className="space-y-2 animate-fade-in" style={{ animationDelay: "100ms" }}>
-            <h1 className="text-2xl md:text-3xl font-bold tracking-tight">
+            <h1 data-testid="main-heading" className="text-2xl md:text-3xl font-bold tracking-tight">
               Find the <span className="text-gold">Best Season</span>
             </h1>
-            <p className="text-muted-foreground">
+            <p data-testid="tagline" className="text-muted-foreground">
               Discover which season of your favorite TV show is the highest rated according to IMDb
             </p>
           </div>
@@ -66,6 +66,7 @@ export default function HomePage() {
                 <span key={suggestion}>
                   <Link
                     href={`/${encodeURIComponent(suggestion)}`}
+                    data-testid={`suggestion-${suggestion.toLowerCase().replace(/\s+/g, "-")}`}
                     className="text-foreground font-medium hover:text-gold transition-colors"
                   >
                     {suggestion}
@@ -79,13 +80,14 @@ export default function HomePage() {
       </div>
 
       {/* Footer */}
-      <footer className="py-4 text-center text-sm text-muted-foreground border-t border-border/50">
+      <footer data-testid="footer" className="py-4 text-center text-sm text-muted-foreground border-t border-border/50">
         <p>
           Powered by{" "}
           <a
             href="https://www.omdbapi.com/"
             target="_blank"
             rel="noopener noreferrer"
+            data-testid="omdb-link"
             className="text-gold hover:underline"
           >
             OMDb API
